@@ -1,33 +1,34 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+require('dotenv').config(); // For local development
 
 const app = express();
 const PORT = process.env.PORT || 5001;
 
 // --- Middleware ---
-// THIS IS THE FIX: More specific CORS configuration
+// FIX #1: Allow both local and deployed frontend URLs to connect
 const corsOptions = {
-  origin: 'http://localhost:5173', // Your React app's address
+  origin: ['http://localhost:5173', 'https://hackathon-form-7m99.onrender.com'], 
   optionsSuccessStatus: 200 
 };
 app.use(cors(corsOptions));
 app.use(express.json());
 
 // --- MongoDB Connection ---
-// IMPORTANT: Replace this with your actual MongoDB connection string
-const MONGO_URI = "mongodb://localhost:27017/hackathonDB";
+// FIX #2: Use the Render environment variable for the live database
+const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/hackathonDB";
 
 mongoose.connect(MONGO_URI)
   .then(() => console.log("MongoDB connected successfully."))
   .catch(err => console.error("MongoDB connection error:", err));
 
-// --- Mongoose Schema and Model ---
+// --- Mongoose Schema and Model (Unchanged) ---
 const registrationSchema = new mongoose.Schema({
   teamName: { type: String, required: true, unique: true },
   headName: { type: String, required: true },
   headEmail: { type: String, required: true },
-  password: { type: String, required: true }, // In a real app, you'd hash this!
+  password: { type: String, required: true },
   headRegNo: { type: String, required: true },
   contact: { type: String, required: true },
   altContact: { type: String },
@@ -43,8 +44,7 @@ const registrationSchema = new mongoose.Schema({
 
 const Registration = mongoose.model('Registration', registrationSchema);
 
-
-// --- API Routes ---
+// --- API Routes (Unchanged) ---
 
 // GET all registrations
 app.get('/api/registrations', async (req, res) => {
@@ -104,6 +104,6 @@ app.patch('/api/registrations/:id', async (req, res) => {
 
 // --- Start Server ---
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on port: ${PORT}`);
 });
 
