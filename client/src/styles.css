@@ -1,0 +1,204 @@
+/* --- Google Font Import --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+
+/* --- Android Club Dark Theme --- */
+:root {
+  --green-accent: #22C55E;
+  --bg-black: #000000;
+  --surface-black: #111111;
+  --text-white: #FFFFFF;
+  --text-grey: #888888;
+  --divider-color: #333333;
+  --error: #ff5252;
+  --font-family: 'Inter', sans-serif;
+  --border-radius: 8px;
+}
+
+/* --- Global & Body --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-black);
+  color: var(--text-white);
+  line-height: 1.6;
+}
+
+/* --- Layout --- */
+.header {
+  background-color: var(--bg-black);
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--divider-color);
+}
+.header-title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+.container {
+  /* THIS IS THE FIX: Wider max-width for a balanced, centered layout */
+  max-width: 900px; 
+  margin: 32px auto;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* --- Components --- */
+.card {
+  background-color: var(--surface-black);
+  border-radius: var(--border-radius);
+  padding: 24px;
+  border: 1px solid var(--divider-color);
+}
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--green-accent);
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* --- Forms --- */
+.form-group {
+  margin-bottom: 24px;
+}
+.form-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--divider-color);
+  background-color: var(--surface-black);
+  font-size: 1rem;
+  outline: none;
+  color: var(--text-white);
+  border-radius: var(--border-radius);
+  transition: border-color 0.2s;
+}
+.form-input:focus {
+  border-color: var(--green-accent);
+}
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--text-grey);
+}
+
+/* --- Buttons --- */
+.btn {
+  padding: 12px 24px;
+  border-radius: var(--border-radius);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  width: 100%;
+}
+.btn.small {
+  padding: 8px 16px;
+  font-size: 0.8rem;
+}
+.btn-filled {
+  background-color: var(--green-accent);
+  color: var(--bg-black);
+  border-color: var(--green-accent);
+}
+.btn-filled:hover {
+  filter: brightness(1.2);
+}
+.btn-outlined {
+  background-color: transparent;
+  color: var(--text-white);
+  border-color: var(--text-white);
+}
+.btn-outlined:hover {
+  background-color: var(--text-white);
+  color: var(--bg-black);
+}
+
+/* --- Utilities & Footer --- */
+.row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.error {
+  color: var(--error);
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+.success {
+  color: var(--bg-black);
+  margin-top: 16px;
+  font-weight: 700;
+  background-color: var(--green-accent);
+  padding: 12px;
+  border-radius: var(--border-radius);
+  text-align: center;
+}
+.divider {
+  height: 1px;
+  background-color: var(--divider-color);
+  margin: 24px 0;
+}
+.text-secondary {
+  color: var(--text-grey);
+}
+.teams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+.team-card {
+  border: 1px solid var(--divider-color);
+  padding: 16px;
+  border-radius: var(--border-radius);
+}
+.team-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-white);
+}
+.admin-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.admin-actions {
+  display: flex;
+  gap: 8px;
+}
+.checkbox-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  color: var(--text-grey);
+}
+.footer {
+  padding: 40px;
+  border-top: 1px solid var(--divider-color);
+  margin-top: 40px;
+  text-align: center;
+}
+.footer-bottom {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--divider-color);
+}
+.footer-bottom p {
+  color: var(--text-grey);
+  font-size: 0.9rem;
+}
