@@ -5,9 +5,7 @@ const ADMIN_PASSWORD = "admin123";
 // --- THIS IS THE CRITICAL FIX ---
 // This code now automatically uses the correct backend URL whether you are
 // running locally or when deployed live on Render.
-const API_URL = process.env.NODE_ENV === 'production'
-  ? "https://hackathon-form-7m99.onrender.com/api" // Your live Render backend URL
-  : "http://localhost:5001/api";                  // Your local backend URL
+const API_URL = "https://hackathon-form-7m99.onrender.com/api";                // Your local backend URL
 
 // --- Utility Functions (Unchanged) ---
 function toCSV(rows) {
