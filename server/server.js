@@ -44,7 +44,7 @@ const registrationSchema = new mongoose.Schema({
 
 const Registration = mongoose.model('Registration', registrationSchema);
 
-// --- API Routes (Unchanged) ---
+// --- API Routes ---
 
 // GET all registrations
 app.get('/api/registrations', async (req, res) => {
