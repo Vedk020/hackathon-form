@@ -1,29 +1,32 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config(); // For local development
 
 const app = express();
 const PORT = process.env.PORT || 5001;
 
 // --- Middleware ---
-// FIX #1: Allow both local and deployed frontend URLs to connect
-const corsOptions = {
-  origin: ['http://localhost:5173', 'https://hackathon-form-7m99.onrender.com'], 
+// Sirf deployed frontend ko allow karo
+app.use(cors({ 
+  origin: 'https://hackathon-form-7m99.onrender.com', 
   optionsSuccessStatus: 200 
-};
-app.use(cors(corsOptions));
+}));
 app.use(express.json());
 
 // --- MongoDB Connection ---
-// FIX #2: Use the Render environment variable for the live database
-const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/hackathonDB";
+// Sirf Render env ke MONGO_URI par connect karo
+const MONGO_URI = process.env.MONGO_URI;
+
+if (!MONGO_URI) {
+  console.error("❌ ERROR: MONGO_URI not set in environment variables.");
+  process.exit(1);
+}
 
 mongoose.connect(MONGO_URI)
-  .then(() => console.log("MongoDB connected successfully."))
-  .catch(err => console.error("MongoDB connection error:", err));
+  .then(() => console.log("✅ MongoDB connected successfully."))
+  .catch(err => console.error("❌ MongoDB connection error:", err));
 
-// --- Mongoose Schema and Model (Unchanged) ---
+// --- Mongoose Schema and Model ---
 const registrationSchema = new mongoose.Schema({
   teamName: { type: String, required: true, unique: true },
   headName: { type: String, required: true },
@@ -45,7 +48,6 @@ const registrationSchema = new mongoose.Schema({
 const Registration = mongoose.model('Registration', registrationSchema);
 
 // --- API Routes ---
-
 // GET all registrations
 app.get('/api/registrations', async (req, res) => {
   try {
@@ -63,47 +65,44 @@ app.post('/api/registrations', async (req, res) => {
     if (existingTeam) {
       return res.status(400).json({ message: 'Team name already taken.' });
     }
-    
+
     let teamNumber;
     let isUnique = false;
     while (!isUnique) {
-        teamNumber = "TEAM" + Math.floor(10000 + Math.random() * 90000);
-        const existingNumber = await Registration.findOne({ teamNumber });
-        if (!existingNumber) {
-            isUnique = true;
-        }
+      teamNumber = "TEAM" + Math.floor(10000 + Math.random() * 90000);
+      const existingNumber = await Registration.findOne({ teamNumber });
+      if (!existingNumber) {
+        isUnique = true;
+      }
     }
 
     const newRegistration = new Registration({ ...req.body, teamNumber });
     await newRegistration.save();
     res.status(201).json(newRegistration);
   } catch (error) {
-    console.error("SAVE ERROR:", error); 
+    console.error("SAVE ERROR:", error);
     res.status(500).json({ message: 'Error creating registration', error: error.message });
   }
 });
 
-// PATCH to update a registration
+// PATCH update registration
 app.patch('/api/registrations/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const updates = req.body;
+  try {
+    const { id } = req.params;
+    const updates = req.body;
+    const updatedRegistration = await Registration.findByIdAndUpdate(id, updates, { new: true });
 
-        const updatedRegistration = await Registration.findByIdAndUpdate(id, updates, { new: true });
-        
-        if (!updatedRegistration) {
-            return res.status(404).json({ message: 'Registration not found' });
-        }
-
-        res.json(updatedRegistration);
-    } catch (error) {
-        res.status(500).json({ message: 'Error updating registration', error });
+    if (!updatedRegistration) {
+      return res.status(404).json({ message: 'Registration not found' });
     }
-});
 
+    res.json(updatedRegistration);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating registration', error });
+  }
+});
 
 // --- Start Server ---
 app.listen(PORT, () => {
-  console.log(`Server is running on port: ${PORT}`);
+  console.log(`🚀 Server is running on port: ${PORT}`);
 });
-
