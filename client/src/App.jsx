@@ -3,7 +3,7 @@ import "./styles.css";
 
 const ADMIN_PASSWORD = "admin123";
 // --- Backend API URL ---
-const API_URL = "http://localhost:5001/api/registrations";
+const API_URL = "https://hackathon-form-7m99.onrender.com/api/registrations";
 
 // --- Utility Functions (Unchanged) ---
 function generateTeamNumber(existing = []) {
