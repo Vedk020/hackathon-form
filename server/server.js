@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 5001;
 
 // --- Middleware ---
 const corsOptions = {
-  origin: 'https://hackathon-form-7m99.onrender.com', // Only allow the deployed frontend
+  origin: 'https://hackandro.netlify.app/', // Only allow the deployed frontend
   optionsSuccessStatus: 200 
 };
 app.use(cors(corsOptions));
